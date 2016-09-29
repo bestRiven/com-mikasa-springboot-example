@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.mikasa.springboot.example.mapper.readonly.ReadOnlyUserMapper">
+
+	<select id="findList" resultType="com.mikasa.springboot.example.domain.User" >
+		SELECT id,name,phone FROM T_USER
+	</select>
+
+	<select id="findByName" parameterType="java.lang.String" resultType="com.mikasa.springboot.example.domain.User" >
+		SELECT id,name,phone FROM T_USER WHERE NAME = #{name}
+	</select>
+
+    <!--<select id="queryOrders" parameterType="java.util.Map" resultType="java.util.HashMap" >
+		select date_format(created_at,'%Y-%m-%d') created_at,
+			order_id,wm_order_id_view,app_poi_code,wm_poi_name
+			,wm_poi_address,wm_poi_phone,recipient_address
+			,recipient_phone,recipient_name,shipping_fee,total,original_price
+			,caution,shipper_phone,status,has_invoiced,invoice_title
+			,ctime,utime,delivery_time,is_third_shipping,pay_type,latitude,longitude
+			,detail,extras from meituan_orders
+		where 1 = 1
+		<if test="wm_order_id_view!='' and wm_order_id_view!=null">
+	      	and wm_order_id_view = #{wm_order_id_view}
+	    </if>
+		<if test="app_poi_code!='' and app_poi_code!=null">
+	      	and app_poi_code = #{app_poi_code}
+	    </if>
+		<if test="recipient_name!='' and recipient_name!=null">
+	      	and recipient_name = #{recipient_name}
+	    </if>
+	    <if test="have_no_coordinate!='' and have_no_coordinate!=null">
+	      	and (latitude is null or latitude='')
+	    </if>
+	    order by id desc limit #{lmtstart},#{lmtend}
+	</select>-->
+
+</mapper>
