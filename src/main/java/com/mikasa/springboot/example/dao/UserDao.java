@@ -32,8 +32,8 @@ public class UserDao {
     }
 
     @Transactional
-    public int insert(String name, String phone) {
-        return userMapper.insert(name,phone);
+    public int insert(String username, String phone) {
+        return userMapper.insert(username,phone);
     }
 
     public int insertByUser(User user) {
@@ -50,8 +50,8 @@ public class UserDao {
         userMapper.delete(id);
     }
 
-    public User findByName(String name) {
-        return userMapper.findByName(name);
+    public User findByName(String username) {
+        return userMapper.findByName(username);
     }
 
     public List<User> getUserList() throws DataAccessException {

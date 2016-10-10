@@ -110,6 +110,13 @@
       <version>1.10</version>
     </dependency>
 
+    <!-- SECURITY begin -->
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-security</artifactId>
+    </dependency>
+    <!-- SECURITY end -->
+
   </dependencies>
   <build>
     <finalName>com-mikasa-springboot-example</finalName>

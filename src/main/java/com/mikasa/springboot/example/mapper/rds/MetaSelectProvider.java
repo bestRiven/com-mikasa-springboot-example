@@ -6,7 +6,7 @@ package com.mikasa.springboot.example.mapper.rds;
  */
 public class MetaSelectProvider {
 
-    private static final String USERSQL = "id,name,phone";
+    private static final String USERSQL = "id,username,phone";
 
     public String getUserList() {
         org.apache.ibatis.jdbc.SQL sql = new org.apache.ibatis.jdbc.SQL();

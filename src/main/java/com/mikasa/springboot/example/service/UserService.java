@@ -11,7 +11,7 @@ public interface UserService {
 
     List<User> findAll();
 
-    int insert(String name,String phone);
+    int insert(String username,String phone);
 
     int insertByUser(User user);
 
@@ -19,7 +19,7 @@ public interface UserService {
 
     void delete(int id);
 
-    User findByName(String name);
+    User findByName(String username);
 
     List<User> getUserList();
 

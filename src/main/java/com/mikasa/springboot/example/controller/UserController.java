@@ -80,12 +80,12 @@ public class UserController {
     }
 
     @RequestMapping(value = "/add" ,method = RequestMethod.POST)
-    public Object add(@RequestParam(value = "name") String name,@RequestParam(value = "phone") String phone) {
+    public Object add(@RequestParam(value = "username") String username,@RequestParam(value = "phone") String phone) {
         log.info("添加用户...");
         User user = new User();
-        user.setName(name);
+        user.setUsername(username);
         user.setPhone(phone);
-        int result = userService.insert(name,phone);
+        int result = userService.insert(username,phone);
         Map<String,Object> map = new HashMap<String,Object>();
         map.put("result",result);
         return map;
@@ -107,9 +107,9 @@ public class UserController {
     @ApiOperation(value="redis获取用户详情", notes="根据用户名获取用户详情")
     @ApiImplicitParam(name = "name", value = "用户名", required = true, paramType = "path", dataType = "String")
     @RequestMapping(value = "/find/redis/{name}",method = RequestMethod.GET)
-    public Object findByNameForRedis(@PathVariable String name) {
+    public Object findByNameForRedis(@PathVariable String username) {
         log.info("从redis中获取用户详情...");
-        User user = userService.findByName(name);
+        User user = userService.findByName(username);
         Map<String,Object> map = new HashMap<String,Object>();
         map.put("result",user);
         return map;

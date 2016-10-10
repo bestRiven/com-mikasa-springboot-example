@@ -19,7 +19,7 @@ public interface MetaMapper {
     @SelectProvider(type = MetaSelectProvider.class, method = "getUserList")
     @Results(value ={
             @Result(id=true, property="id",column="id",javaType=Integer.class,jdbcType= JdbcType.INTEGER),
-            @Result(property="name",column="name",javaType=String.class,jdbcType=JdbcType.VARCHAR),
+            @Result(property="username",column="username",javaType=String.class,jdbcType=JdbcType.VARCHAR),
             @Result(property="phone",column="phone",javaType=String.class,jdbcType=JdbcType.VARCHAR)})
     List<User> getUserList();
 }

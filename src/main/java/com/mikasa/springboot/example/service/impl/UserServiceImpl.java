@@ -31,8 +31,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public int insert(String name, String phone) {
-        return userDao.insert(name,phone);
+    public int insert(String username, String phone) {
+        return userDao.insert(username,phone);
     }
 
     @Override
@@ -54,12 +54,12 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Cacheable(value = "findUserByNameCache", keyGenerator = "wiselyKeyGenerator")
-    public User findByName(String name) {
-        User user = (User) redisUtil.get(name);
+    public User findByName(String username) {
+        User user = (User) redisUtil.get(username);
         if(user == null){
             System.out.println("无缓存的时候调用这里");
-            user = userDao.findByName(name);
-            redisUtil.set(name,user);
+            user = userDao.findByName(username);
+            redisUtil.set(username,user);
         }
         return user;
     }
