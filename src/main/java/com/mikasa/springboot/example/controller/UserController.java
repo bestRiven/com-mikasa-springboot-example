@@ -2,6 +2,7 @@ package com.mikasa.springboot.example.controller;
 
 import com.mikasa.springboot.example.domain.MyException;
 import com.mikasa.springboot.example.domain.User;
+import com.mikasa.springboot.example.redis.RedisUtil;
 import com.mikasa.springboot.example.service.UserService;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
@@ -30,6 +31,9 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private RedisUtil redisUtil;
 
     @RequestMapping(value = "/test",method = RequestMethod.GET)
     public Object test() {
@@ -105,11 +109,24 @@ public class UserController {
     }
 
     @ApiOperation(value="redis获取用户详情", notes="根据用户名获取用户详情")
-    @ApiImplicitParam(name = "name", value = "用户名", required = true, paramType = "path", dataType = "String")
-    @RequestMapping(value = "/find/redis/{name}",method = RequestMethod.GET)
+    @ApiImplicitParam(name = "username", value = "用户名", required = true, paramType = "path", dataType = "String")
+    @RequestMapping(value = "/find/redis/{username}",method = RequestMethod.GET)
     public Object findByNameForRedis(@PathVariable String username) {
+        redisUtil.remove("tiffany");
         log.info("从redis中获取用户详情...");
         User user = userService.findByName(username);
+        Map<String,Object> map = new HashMap<String,Object>();
+        map.put("result",user);
+        return map;
+    }
+
+    @ApiOperation(value="redis消息队列", notes="redis消息队列发送消息")
+    @ApiImplicitParam(name = "username", value = "用户名", required = true, paramType = "path", dataType = "String")
+    @RequestMapping(value = "/redis/send/{username}",method = RequestMethod.GET)
+    public Object sendMessage(@PathVariable String username) {
+        log.info("从redis中获取用户详情...");
+        User user = userService.findByName(username);
+        redisUtil.sendMessage("chat",user);
         Map<String,Object> map = new HashMap<String,Object>();
         map.put("result",user);
         return map;

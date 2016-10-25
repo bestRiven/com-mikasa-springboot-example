@@ -143,5 +143,22 @@ public class RedisUtil {
         return result;
     }
 
+    /**
+     * 发送消息
+     * @param channel
+     * @param message
+     * @return
+     */
+    public boolean sendMessage(String channel, Object message) {
+        boolean result = false;
+        try {
+            redisTemplate.convertAndSend(channel,message);
+            result = true;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
 
 }

@@ -1,6 +1,7 @@
 package com.mikasa.springboot.example.redis;
 
 import java.lang.reflect.Method;
+import java.util.concurrent.CountDownLatch;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.CacheManager;
@@ -15,6 +16,9 @@ import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.data.redis.listener.PatternTopic;
+import org.springframework.data.redis.listener.RedisMessageListenerContainer;
+import org.springframework.data.redis.listener.adapter.MessageListenerAdapter;
 import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
@@ -97,5 +101,33 @@ public class RedisConfig extends CachingConfigurerSupport{
         om.enableDefaultTyping(ObjectMapper.DefaultTyping.NON_FINAL);
         jackson2JsonRedisSerializer.setObjectMapper(om);
         template.setValueSerializer(jackson2JsonRedisSerializer);
+    }
+
+    //listenerAdapter方法中定义的Bean注册为一个消息监听者，它将监听chat主题的消息。
+    @Bean
+    RedisMessageListenerContainer container(RedisConnectionFactory connectionFactory,
+                                            MessageListenerAdapter listenerAdapter) {
+
+        RedisMessageListenerContainer container = new RedisMessageListenerContainer();
+        container.setConnectionFactory(connectionFactory);
+        container.addMessageListener(listenerAdapter, new PatternTopic("chat"));
+
+        return container;
+    }
+    //MessageListenerAdapter使用一个POJO来订阅和响应该消息。
+    @Bean
+    MessageListenerAdapter listenerAdapter(Receiver receiver) {
+        return new MessageListenerAdapter(receiver, "receiveMessage");
+    }
+
+    @Bean
+    Receiver receiver(CountDownLatch latch) {
+
+        return new Receiver(latch);
+    }
+
+    @Bean
+    CountDownLatch latch() {
+        return new CountDownLatch(1);
     }
 }
