@@ -112,7 +112,6 @@ public class UserController {
     @ApiImplicitParam(name = "username", value = "用户名", required = true, paramType = "path", dataType = "String")
     @RequestMapping(value = "/find/redis/{username}",method = RequestMethod.GET)
     public Object findByNameForRedis(@PathVariable String username) {
-        redisUtil.remove("tiffany");
         log.info("从redis中获取用户详情...");
         User user = userService.findByName(username);
         Map<String,Object> map = new HashMap<String,Object>();

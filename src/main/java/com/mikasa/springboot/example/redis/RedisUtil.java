@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 import org.apache.log4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.ListOperations;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -16,6 +17,8 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class RedisUtil {
+
+    org.slf4j.Logger log = LoggerFactory.getLogger(RedisUtil.class);
 
     @Autowired
     private RedisTemplate redisTemplate;
