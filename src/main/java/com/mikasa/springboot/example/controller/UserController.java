@@ -2,6 +2,7 @@ package com.mikasa.springboot.example.controller;
 
 import com.mikasa.springboot.example.domain.MyException;
 import com.mikasa.springboot.example.domain.User;
+import com.mikasa.springboot.example.email.MailService;
 import com.mikasa.springboot.example.redis.RedisUtil;
 import com.mikasa.springboot.example.service.UserService;
 import io.swagger.annotations.ApiImplicitParam;
@@ -34,6 +35,9 @@ public class UserController {
 
     @Autowired
     private RedisUtil redisUtil;
+
+    @Autowired
+    private MailService mailService;
 
     @RequestMapping(value = "/test",method = RequestMethod.GET)
     public Object test() {
@@ -129,6 +133,16 @@ public class UserController {
         Map<String,Object> map = new HashMap<String,Object>();
         map.put("result",user);
         return map;
+    }
+
+    @ApiOperation(value="发送邮件", notes="springboot发送邮件")
+    @ApiImplicitParam(name = "content", value = "内容", required = true, paramType = "path", dataType = "String")
+    @RequestMapping(value = "/email/{content}",method = RequestMethod.GET)
+    public Object sendEmail(@PathVariable String content) {
+        log.info("发送邮件开始...");
+        String to = "958988867@qq.com";
+        mailService.sendSimpleMail(to, "主题：简单邮件", content);
+        return "success";
     }
 
 }
