@@ -11,7 +11,9 @@ public interface UserService {
 
     List<User> findAll();
 
-    int insert(String username,String phone);
+    User findById(Integer id);
+
+    int insert(String username,String password,String phone);
 
     int insertByUser(User user);
 

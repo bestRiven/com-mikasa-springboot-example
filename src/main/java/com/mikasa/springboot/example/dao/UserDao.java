@@ -31,11 +31,16 @@ public class UserDao {
         return userMapper.findAll();
     }
 
-    @Transactional
-    public int insert(String username, String phone) {
-        return userMapper.insert(username,phone);
+    public User findById(Integer id){
+        return userMapper.findById(id);
     }
 
+    @Transactional
+    public int insert(String username,String password, String phone) {
+        return userMapper.insert(username,password,phone);
+    }
+    
+    @Transactional
     public int insertByUser(User user) {
         return userMapper.insertByUser(user);
     }

@@ -104,7 +104,7 @@ public class RedisConfig extends CachingConfigurerSupport{
     }
 
     //listenerAdapter方法中定义的Bean注册为一个消息监听者，它将监听chat主题的消息。
-    @Bean
+    /*@Bean
     RedisMessageListenerContainer container(RedisConnectionFactory connectionFactory,
                                             MessageListenerAdapter listenerAdapter) {
 
@@ -129,5 +129,5 @@ public class RedisConfig extends CachingConfigurerSupport{
     @Bean
     CountDownLatch latch() {
         return new CountDownLatch(1);
-    }
+    }*/
 }

@@ -24,7 +24,7 @@ public class ThymeleafController {
     public String greeting(@RequestParam(name = "name", required = false, defaultValue = "world") String name,
                            Model model) {
         model.addAttribute("xname", name);
-        return "index";
+        return "test";
     }
 
     @ApiOperation("thymeleaf ajax")
@@ -32,6 +32,12 @@ public class ThymeleafController {
     @RequestMapping(value = "/ajax", method = RequestMethod.GET)
     public String ajax(@RequestParam("username") String username) {
         return username;
+    }
+
+    @ApiOperation("wine网站首页")
+    @RequestMapping(value = "/home", method = RequestMethod.GET)
+    public String home(Model model) {
+        return "wine/index";
     }
 
 }

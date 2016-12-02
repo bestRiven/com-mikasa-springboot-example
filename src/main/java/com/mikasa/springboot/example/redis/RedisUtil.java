@@ -1,6 +1,7 @@
 package com.mikasa.springboot.example.redis;
 
 import java.io.Serializable;
+import java.util.List;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 import org.apache.log4j.Logger;
@@ -46,6 +47,7 @@ public class RedisUtil {
      *
      * @param key
      * @param value
+     * @param expireTime
      * @return
      */
     public boolean set(final String key, Object value, Long expireTime) {
@@ -60,6 +62,7 @@ public class RedisUtil {
         }
         return result;
     }
+
     /**
      * 判断缓存中是否有对应的value
      *
@@ -118,7 +121,7 @@ public class RedisUtil {
      * @param value
      * @return
      */
-    public boolean lpushList(final String key, Object value) {
+    public boolean lpush(final String key, Object value) {
         boolean result = false;
         try {
             ListOperations<Serializable, Object> operations = redisTemplate.opsForList();
@@ -135,11 +138,27 @@ public class RedisUtil {
      * @param key
      * @return
      */
-    public Object rpopList(final String key) {
+    public Object rpop(final String key) {
         Object result = null;
         try {
             ListOperations<Serializable, Object> operations = redisTemplate.opsForList();
             result = operations.rightPop(key);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+    /**
+     * 查询队列 List
+     * @param key
+     * @return
+     */
+    public List range(final String key) {
+        List result = null;
+        try {
+            ListOperations<Serializable, Object> operations = redisTemplate.opsForList();
+            result = operations.range(key,0,-1);
         } catch (Exception e) {
             e.printStackTrace();
         }

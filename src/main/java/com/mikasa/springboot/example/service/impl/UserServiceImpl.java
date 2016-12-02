@@ -30,9 +30,14 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public User findById(Integer id) {
+        return userDao.findById(id);
+    }
+
+    @Override
     @Transactional
-    public int insert(String username, String phone) {
-        return userDao.insert(username,phone);
+    public int insert(String username,String password, String phone) {
+        return userDao.insert(username,password,phone);
     }
 
     @Override

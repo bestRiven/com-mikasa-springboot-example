@@ -88,12 +88,15 @@ public class UserController {
     }
 
     @RequestMapping(value = "/add" ,method = RequestMethod.POST)
-    public Object add(@RequestParam(value = "username") String username,@RequestParam(value = "phone") String phone) {
+    public Object add(@RequestParam(value = "username") String username,
+                      @RequestParam(value = "password") String password,
+                      @RequestParam(value = "phone") String phone) {
         log.info("添加用户...");
         User user = new User();
         user.setUsername(username);
+        user.setPassword(password);
         user.setPhone(phone);
-        int result = userService.insert(username,phone);
+        int result = userService.insert(username,password,phone);
         Map<String,Object> map = new HashMap<String,Object>();
         map.put("result",result);
         return map;
