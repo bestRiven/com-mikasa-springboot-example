@@ -1,16 +1,17 @@
 package com.mikasa.springboot.example.redis;
 
-import java.io.Serializable;
-import java.util.List;
-import java.util.Set;
-import java.util.concurrent.TimeUnit;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.ListOperations;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Component;
+
+import java.io.Serializable;
+import java.util.List;
+import java.util.Set;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Created by sherlock on 16/9/13.
@@ -19,7 +20,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class RedisUtil {
 
-    org.slf4j.Logger log = LoggerFactory.getLogger(RedisUtil.class);
+    private static Logger log = LoggerFactory.getLogger(RedisUtil.class);
 
     @Autowired
     private RedisTemplate redisTemplate;
@@ -150,6 +151,23 @@ public class RedisUtil {
     }
 
     /**
+     * 取出队列 List
+     * @param key1
+     * @param key2
+     * @return
+     */
+    public Object rpoplpush(final String key1,final String key2) {
+        Object result = null;
+        try {
+            ListOperations<Serializable, Object> operations = redisTemplate.opsForList();
+            result = operations.rightPopAndLeftPush(key1,key2);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+    /**
      * 查询队列 List
      * @param key
      * @return
@@ -181,6 +199,5 @@ public class RedisUtil {
         }
         return result;
     }
-
 
 }
