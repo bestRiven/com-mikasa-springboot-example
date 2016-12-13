@@ -184,6 +184,22 @@ public class RedisUtil {
     }
 
     /**
+     * 查询队列 List的长度
+     * @param key
+     * @return
+     */
+    public Long llen(final String key) {
+        Long result = null;
+        try {
+            ListOperations<Serializable, Object> operations = redisTemplate.opsForList();
+            result = operations.size(key);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+    /**
      * 发送消息
      * @param channel
      * @param message
